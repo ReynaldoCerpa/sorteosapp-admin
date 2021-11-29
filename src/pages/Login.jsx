@@ -1,6 +1,6 @@
 import { FaUserAlt, FaLock} from "react-icons/fa"
 import Alert from "@mui/material/Alert"
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { InputAdornment, TextField } from "@material-ui/core";
 import Btn from "../components/Btn"
 import styled from "styled-components";
@@ -48,7 +48,9 @@ const Login = () => {
           { alert ? <Alert severity="error">Datos incorrectos</Alert> : ""}
           <Btn onClick={async ()=> {
             const valid = await login(usuarioText, contrasenaText)
-            (valid) ? setAlert(!valid) : false;
+            const response = await valid;
+            console.log(response);
+            (response) ? <Navigate to="/landing" /> : setAlert(response);
             }} />
         </InputContainer>
       </div>
