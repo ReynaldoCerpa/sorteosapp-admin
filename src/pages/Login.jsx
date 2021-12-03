@@ -5,6 +5,7 @@ import { InputAdornment, TextField } from "@material-ui/core";
 import Btn from "../components/Btn"
 import styled from "styled-components";
 import { useState } from "react";
+import { headers } from "../config/headers";
 
 const Login = () => {
   const [usuarioText, setUsuarioText] = useState("")
@@ -53,7 +54,7 @@ const Login = () => {
             const valid = await login(usuarioText, contrasenaText)
             const response = await valid;
             setAlert(!response)
-            if(response) nav("/landing")
+            if(response) nav("/Colaboradores")
             }} />
         </InputContainer>
       </div>
@@ -66,10 +67,6 @@ const login = async (username, password) => {
     const values = {
       username: username,
       password: password
-    }
-    const headers = {
-      'Content-Type':'application/json',
-      "Access-Control-Allow-Origin": "*"
     }
 
     const response = await fetch("http://localhost:4000/login", {
