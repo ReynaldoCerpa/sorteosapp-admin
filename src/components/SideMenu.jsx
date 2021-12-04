@@ -6,6 +6,16 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import styled from "styled-components"
 
+const LinkStyled = styled(Link)`
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+`;
+
+const ListItemStyled = styled(ListItem)`
+    height: 3rem;
+`;
+
 const SideMenu = () => {
     return (
         <>
@@ -19,12 +29,13 @@ const SideMenu = () => {
                 >
                     <Toolbar />
                         <List>
-                            {['Abonos', 'Adeudos', 'Carteras', 'Colaboradores'].map((text, index) => (
-                                <Link to={`/${text}`}>
-                                    <ListItem button key={text}>
+                            {['Abonos', 'Adeudos', 'Colaboradores'].map((text, index) => (
+                                <LinkStyled
+                                to={`/${text}`}>
+                                    <ListItemStyled button key={text}>
                                         {text}
-                                    </ListItem>
-                                </Link>
+                                    </ListItemStyled>
+                                </LinkStyled>
                             ))}
                         </List>
                 </Drawer>

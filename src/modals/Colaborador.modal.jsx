@@ -1,33 +1,59 @@
-import { useState } from "react";
-import "./Modal.css"
 
-export default function ColaboradorModal({modal, buttonClicked, colaborador}) {
-  const [show, setModal] = useState(false);
-  console.log("Modal colaborador: ",colaborador);
+import { useState, useEffect } from "react";
+import "./Modal.css"
+import styled from "styled-components";
+import CarteraItem from "../components/CarteraItem";
+
+
+const ColaboradorModal = ({modal, buttonClicked, colaborador }) => {
+
+  //console.log(colaborador.Nombre);
+  const Container = styled.div`
+    margin-left: 5rem;
+  `;
+
+  const ContentContainer = styled.div`
+    margin-top: 7.5rem;
+    max-width: 60rem;
+    min-width: 40rem;
+    width: 100%;
+    height: 80%;
+    overflow: scroll;
+  `;
+
+  const CarterasContainer = styled.div`
+  `;
+
 
   return (
     <>
 
       {modal && (
-        <div style={{marginLeft: "5rem"}}className="modal">
-          <div onClick={buttonClicked} className="overlay"></div>
-          <div className="modal-content">
-            <h2>{colaborador}</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
-              perferendis suscipit officia recusandae, eveniet quaerat assumenda
-              id fugit, dignissimos maxime non natus placeat illo iusto!
-              Sapiente dolorum id maiores dolores? Illum pariatur possimus
-              quaerat ipsum quos molestiae rem aspernatur dicta tenetur. Sunt
-              placeat tempora vitae enim incidunt porro fuga ea.
-            </p>
+        <Container className="modal">
+          <div className="overlay"></div>
+          <ContentContainer className="modal-content">
+            <h1>Carteras</h1>
+            <h2>{colaborador.nombre}</h2>
+            <CarterasContainer>
+              {
+                colaborador.carteras.map(({idCartera, idColaborador, numBoletos, fechaEntregada, entregada})=>{
+                  return <CarteraItem 
+                  idCartera={idCartera}
+                  idColaborador={idColaborador}
+                  numBoletos={numBoletos}
+                  fechaEntregada={fechaEntregada}
+                  entregada={entregada}/>
+                })
+              }
+            </CarterasContainer>
             <button className="close-modal" onClick={buttonClicked}>
               CLOSE
             </button>
-          </div>
-        </div>
+          </ContentContainer>
+        </Container>
       )}
       
     </>
   );
 }
+export default ColaboradorModal;
