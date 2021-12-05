@@ -23,7 +23,11 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
   }
   //console.log(colaborador.Nombre);
   const Container = styled.div`
-    margin-left: 5rem;
+    
+    position: absolute;
+    z-index: 1000;
+    width: 95%;
+    height: 95%;
   `;
 
   const ContentContainer = styled.div`
@@ -102,8 +106,8 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
     <>
 
       {modal && (
-        <Container >
-          <div className="popup-overlay" onClick={closePopup}></div>
+        <Container className="popup-container">
+          <div className="popup-overlay"></div>
           <ContentContainer>
 
             <Title>Agregar carteras</Title>

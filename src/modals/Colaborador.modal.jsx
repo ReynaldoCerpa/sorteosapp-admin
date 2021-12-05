@@ -9,15 +9,24 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableContainer from '@mui/material/TableContainer';
 import Paper from "@material-ui/core/Paper";
+import Boletos from "./Boletos.modal";
+import { allBoletosCartera } from "../Data/Colaboradores.Data";
 
 
 const ColaboradorModal = ({modal, buttonClicked, colaborador }) => {
 
   const [popup, setModal] = useState(false);
+  const [boletos, setBoletos] = useState(false);
+  const [boletosCartera, setBoletosCartera] = useState(false);
 
   const toggleModal = () => {
     setModal(!popup)
+  }
+
+  const toggleBoletos = () => {
+    setBoletos(!boletos)
   }
 
 const Container = styled.div`
@@ -42,10 +51,10 @@ const TableButton = styled.button`
 `;
 
   const ContentContainer = styled.div`
-    max-width: 60rem;
+    max-width: 45rem;
     min-width: 30rem;
     width:100%;
-    height: 80%;
+    height: 75%;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -53,7 +62,6 @@ const TableButton = styled.button`
     background: #f1f1f1;
     padding: 14px 28px;
     border-radius: 3px;
-    overflow: scroll;
   `;
 
 
@@ -92,6 +100,7 @@ const TableButton = styled.button`
           <div className="overlay"></div>
           <ContentContainer >
             <AddCarteras modal={popup} closePopup={toggleModal} colaborador={colaborador}/>
+            <Boletos modal={boletos} closePopup={toggleBoletos} boletos={boletosCartera}/>
             <div style={{display: "flex", justifyContent: "space-between", alignItems:"top" }}>
             <h1>Carteras</h1>
             <Button onClick={buttonClicked}>
@@ -105,13 +114,15 @@ const TableButton = styled.button`
                 Asignar carteras
               </CarterasButton>
             </div>
-            <Table>
+            <TableContainer style={{maxHeight: "80%"}}>
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <NameCell>ID Cartera</NameCell>
                   <TableCell>Boletos</TableCell>
                   <TableCell>Fecha de entrega</TableCell>
                   <TableCell>Entregada</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -125,7 +136,10 @@ const TableButton = styled.button`
                         <TableCell>{fechaEntregada}</TableCell>
                         <TableCell>{entregada == 0 ? "Pendiente" : "Entregada"}</TableCell>
                         <TableCell>
-                          <TableButton id={idCartera} onClick={(e)=>{
+                          <TableButton id={idCartera} onClick={async (e)=>{
+                            const boletos = await allBoletosCartera(idCartera);
+                            setBoletosCartera(boletos[0]);
+                            toggleBoletos()
                           }}>Ver Boletos
                           </TableButton>
                         </TableCell>
@@ -137,7 +151,8 @@ const TableButton = styled.button`
                   
                 }
                 </TableBody>
-            </Table>  
+            </Table>
+            </TableContainer>  
           </ContentContainer>
         </Container>
       )}

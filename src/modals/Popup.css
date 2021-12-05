@@ -19,6 +19,7 @@ body.active-modal {
     position: fixed;
 }
 
+
 .popup-overlay {
     background: rgba(49,49,49,0.8);
 }

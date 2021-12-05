@@ -91,6 +91,8 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
     `;
     const Title = styled.h1`
         margin: 0;
+        font-size: 1.5rem;
+        padding: 0 10px;
     `;
 
   return (
@@ -103,7 +105,10 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
 
             <Title>Abonar</Title>
             <Title>a: {colaborador.nombreColaborador}</Title>
-            <Title>ID Cartera: {colaborador.idCartera}</Title>
+            <div style={{display: "flex"}}>
+              <Title>ID Cartera: {colaborador.idCartera}</Title>
+              <Title>Adeudo: ${colaborador.adeudo} MXN</Title>
+            </div>
             <OperationContainer>
                 <Symbol>$</Symbol>
                 <AddInput/>

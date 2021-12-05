@@ -28,3 +28,22 @@ export const adeudosCarteras = async () => {
     const data = await response.json()
     return data[0];
 }
+
+export const allBoletosCartera = async (idCartera) => {
+    try {
+      const values = {
+        idCartera: idCartera
+      }
+  
+      const response = await fetch("http://localhost:4000/allBoletos", {
+          method: "post",
+          headers: headers,
+          body: JSON.stringify(values)
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
