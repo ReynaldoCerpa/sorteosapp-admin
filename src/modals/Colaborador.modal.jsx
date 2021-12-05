@@ -14,7 +14,6 @@ import Paper from "@material-ui/core/Paper";
 
 const ColaboradorModal = ({modal, buttonClicked, colaborador }) => {
 
-  const [searchTerm, setSearchTerm] = useState("");
   const [popup, setModal] = useState(false);
 
   const toggleModal = () => {
@@ -92,7 +91,7 @@ const TableButton = styled.button`
         <Container className="modal">
           <div className="overlay"></div>
           <ContentContainer >
-            <AddCarteras modal={popup} buttonClicked={toggleModal} colaborador={colaborador}/>
+            <AddCarteras modal={popup} closePopup={toggleModal} colaborador={colaborador}/>
             <div style={{display: "flex", justifyContent: "space-between", alignItems:"top" }}>
             <h1>Carteras</h1>
             <Button onClick={buttonClicked}>

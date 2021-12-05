@@ -98,7 +98,7 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
     <>
 
       {modal && (
-        <Container className="popup">
+        <Container >
           <div className="popup-overlay" onClick={closePopup}></div>
           <ContentContainer>
 
