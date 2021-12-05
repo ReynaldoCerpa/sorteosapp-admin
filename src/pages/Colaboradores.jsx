@@ -145,7 +145,7 @@ const tableData = (value) => {
           <SearchBar>
             <SearchInput 
             onChange={(e)=>setSearchTerm(e.target.value)}
-            placeholder="Ingrese nombre..."/>
+            placeholder="Ingrese dato..."/>
           </SearchBar>
         </div>
         <Table>

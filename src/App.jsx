@@ -6,6 +6,7 @@ import Abonos from "./pages/Abonos";
 import Adeudos from "./pages/Adeudos";
 import Carteras from "./pages/Carteras";
 import Colaboradores from "./pages/Colaboradores";
+import Colaborador from "./pages/Colaborador";
 import SideMenu from "./components/SideMenu";
 import NavBar from "./components/NavBar";
 
@@ -56,6 +57,14 @@ const App = () => {
                     <Colaboradores/>
                 </>
                 }/>
+                {/* <Route exact path='/Colaborador' element={
+                <>
+                    <NavBar/>
+                    <SideMenu/>
+                    <Toolbar/>
+                    <Colaborador/>
+                </>
+                }/> */}
                 {/* <Route component={Page404} /> */}
             </Routes>
         </Router>
