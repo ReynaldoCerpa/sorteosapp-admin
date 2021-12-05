@@ -29,7 +29,7 @@ const SideMenu = () => {
                 >
                     <Toolbar />
                         <List>
-                            {['Abonos', 'Adeudos', 'Colaboradores'].map((text, index) => (
+                            {['Adeudos', 'Colaboradores'].map((text, index) => (
                                 <LinkStyled
                                 to={`/${text}`}>
                                     <ListItemStyled button key={text}>

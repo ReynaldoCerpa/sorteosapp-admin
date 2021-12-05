@@ -9,16 +9,15 @@ import {FaPlus, FaMinus} from "react-icons/fa"
 const AddCarteras = ({ modal, closePopup, colaborador }) => {
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [popup, setPopup] = useState(false)
   const [numCarteras, setNumCarteras] = useState(1);
 
   function handlePlus(){
-    if((numCarteras + 1) != 100){
+    if((numCarteras + 1) <= 100){
         setNumCarteras(numCarteras+1)
     }
   }
   function handleMinus(){
-    if((numCarteras - 1) != 0){
+    if((numCarteras - 1) >= 1){
         setNumCarteras(numCarteras-1)
     }
   }
@@ -100,15 +99,14 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
 
       {modal && (
         <Container className="popup">
-          <div className="popup-overlay"></div>
+          <div className="popup-overlay" onClick={closePopup}></div>
           <ContentContainer>
 
             <h1>Agregar carteras</h1>
 
             <OperationContainer>
                 <MinusSign onClick={handleMinus}/>
-                <AddInput 
-                readOnly
+                <AddInput
                 value={numCarteras}/>
                 <PlusSign onClick={handlePlus}/>
             </OperationContainer>

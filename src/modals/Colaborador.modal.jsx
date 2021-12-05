@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./Modal.css"
 import styled from "styled-components";
 import CarteraItem from "../components/CarteraItem";
-import AddCarteras from "./AddCarteras.model";
+import AddCarteras from "./AddCarteras.modal";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -92,7 +92,7 @@ const TableButton = styled.button`
         <Container className="modal">
           <div className="overlay"></div>
           <ContentContainer >
-            <AddCarteras modal={popup} closePopup={toggleModal} colaborador={colaborador}/>
+            <AddCarteras modal={popup} buttonClicked={toggleModal} colaborador={colaborador}/>
             <div style={{display: "flex", justifyContent: "space-between", alignItems:"top" }}>
             <h1>Carteras</h1>
             <Button onClick={buttonClicked}>
@@ -127,13 +127,15 @@ const TableButton = styled.button`
                         <TableCell>{entregada == 0 ? "Pendiente" : "Entregada"}</TableCell>
                         <TableCell>
                           <TableButton id={idCartera} onClick={(e)=>{
-                          }}>Detalles
+                          }}>Ver Boletos
                           </TableButton>
                         </TableCell>
                       </TableRow>
                   )))
                   :
+                  
                   <h1>No tiene carteras</h1>
+                  
                 }
                 </TableBody>
             </Table>  

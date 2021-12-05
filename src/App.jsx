@@ -6,7 +6,6 @@ import Abonos from "./pages/Abonos";
 import Adeudos from "./pages/Adeudos";
 import Carteras from "./pages/Carteras";
 import Colaboradores from "./pages/Colaboradores";
-import Colaborador from "./pages/Colaborador";
 import SideMenu from "./components/SideMenu";
 import NavBar from "./components/NavBar";
 

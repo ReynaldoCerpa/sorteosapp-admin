@@ -1,18 +1,18 @@
 
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { colaboradores } from "../Data/Colaboradores.Data";
 import styled from "styled-components";
 import TablePagination from '@mui/material/TablePagination';
 import { headers } from "../config/headers";
-import ColaboradorModal from "../modals/Colaborador.modal";
-import { FaSearch} from "react-icons/fa"
+import { FaSearch} from "react-icons/fa";
+import { adeudosCarteras } from "../Data/Colaboradores.Data";
+import Abonar from "../modals/Abonar.modal";
 
 const Papr = styled(Paper)`
   overflow-x: auto;
@@ -33,19 +33,37 @@ const NameCell = styled(TableCell)`
 `;
 
 const TableButton = styled.button`
-  
+  border: none;
+  padding: 8.5px;
+  text-align: center;
+  border-radius: 7px;
+  cursor: pointer;
+  background-color: #FFBF00;
+  font-weight: 700;
 `;
 
 const SearchBar = styled.div`
-  margin: auto;
+  margin: auto 5rem;
   min-width: 15rem;
 `;
 
 const SearchInput = styled.input`
-  
+  padding: 9px;
+  text-align: left;
+  border-radius: 7px;
+  border-style: hidden;
+  background-color: #e0e0e0;
+  outline: none;
+  width: 20rem;
 `;
 const SearchButton = styled.button`
-  
+  border: none;
+  padding: 8.5px;
+  width: 3rem;
+  text-align: center;
+  border-radius: 0 7px 7px 0;
+  cursor: pointer;
+  background-color: #FFBF00;
 `;
 
 
@@ -54,9 +72,8 @@ const Adeudos = () => {
 const [modal, setModal] = useState(false);
 const [loadingData, setLoadingData] = useState(true);
 const [data, setData] = useState([]);
-const [rowsPerPage, setRowsPerPage] = useState(5);
-const [page, setPage] = useState(0);
 const [selectedColaborador, setColaborador] = useState(null);
+const [searchTerm, setSearchTerm] = useState("");
 
 const toggleModal = () => {
   setModal(!modal)
@@ -64,7 +81,7 @@ const toggleModal = () => {
 
 useEffect(() => {
   async function getData() {
-    setData(await colaboradores())
+    setData(await adeudosCarteras())
     setLoadingData(false)
   }
   if (loadingData) {
@@ -73,71 +90,79 @@ useEffect(() => {
 }, [])
 
 const tableData = (value) => {
-  const colaboradores = []
+  const adeudos = []
   let x;
   for(x in value){
-    colaboradores.push(
+    adeudos.push(
       {
+        idCartera: data[x]["idCartera"],
         idColaborador: data[x]["idColaborador"],
-        nombre: data[x]["Nombre"],
-        telefono: data[x]["telefono"],
-        direccion: data[x]["Direccion"],
-        correo: data[x]["correo"],
-        usuario: data[x]["nombreusuario"],
+        nombreColaborador: data[x]["nombreColaborador"],
+        fechaEntregada: data[x]["fechaEntregada"],
+        adeudo: data[x]["adeudo"],
+        devuelta: data[x]["devuelta"],
       }
     )
   }
-  return colaboradores;
+  return adeudos;
 }
+
 
   return (
     <Container>
-      <ColaboradorModal modal={modal} buttonClicked={toggleModal} colaborador={selectedColaborador}/>
+      <Abonar 
+      modal={modal} buttonClicked={toggleModal} colaborador={selectedColaborador}
+      />
       <Papr>
         <div style={{display: "flex"}}>
           <h1 className="title">Adeudos</h1>
           <SearchBar>
-            <SearchInput/>
-            <SearchButton>
-              <FaSearch/>
-            </SearchButton>
+            <SearchInput 
+            onChange={(e)=>setSearchTerm(e.target.value)}
+            placeholder="Ingrese dato..."/>
           </SearchBar>
         </div>
         <Table>
           <TableHead>
             <TableRow>
-              <NameCell>ID</NameCell>
+              <NameCell>ID Cartera</NameCell>
+              <TableCell>ID Colaborador</TableCell>
               <TableCell>Nombre</TableCell>
-              <TableCell>Teléfono</TableCell>
-              <TableCell>Dirección</TableCell>
-              <TableCell>Correo</TableCell>
-              <TableCell>Usuario</TableCell>
+              <TableCell>Fecha entregada</TableCell>
+              <TableCell>Adeudo</TableCell>
+              <TableCell>Devuelta</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData(data).map(({ idColaborador, nombre, telefono, direccion, correo, usuario }) => (
+            {(tableData(data).filter((val)=>{
+              if(searchTerm == ""){
+                return val;
+              } else if(
+                val.nombreColaborador.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                val.idCartera.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+                val.devuelta.toString().toLowerCase().includes(searchTerm.toLowerCase())
+                ) {
+                return val
+              }
+            }).map(({ idCartera, idColaborador, nombreColaborador, fechaEntregada, adeudo, devuelta }) => (
                 <TableRow
-                style={{cursor: "pointer"}}
                 hover
-                id={idColaborador}
-                key={idColaborador}
                 >
-                  <NameCell
-                  >{idColaborador}</NameCell>
-                  <TableCell>{nombre}</TableCell>
-                  <TableCell>{telefono}</TableCell>
-                  <TableCell>{direccion}</TableCell>
-                  <TableCell>{correo}</TableCell>
-                  <TableCell>{usuario}</TableCell>
+                  <TableCell>{idCartera}</TableCell>
+                  <TableCell>{idColaborador}</TableCell>
+                  <TableCell>{nombreColaborador}</TableCell>
+                  <TableCell>{fechaEntregada}</TableCell>
+                  <TableCell>${adeudo} MXN</TableCell>
+                  <TableCell>{devuelta == 0 ? "Pendiente" : "Devuelta"}</TableCell>
                   <TableCell>
                     <TableButton id={idColaborador} onClick={(e)=>{
+                      setColaborador(tableData(data)[e.target.id-1])
                       toggleModal()
-                      setColaborador(data[e.target.id-1].Nombre)
-                    }}>Detalles</TableButton>
+                    }}>Abonar</TableButton>
                   </TableCell>
                 </TableRow>
-            ))}
+            )))}
           </TableBody>
         </Table>
         {/* <TablePagination
@@ -155,5 +180,4 @@ const tableData = (value) => {
 };
 
 export default Adeudos;
-
 

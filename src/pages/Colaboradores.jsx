@@ -174,9 +174,6 @@ const tableData = (value) => {
               }
             }).map(({ idColaborador, nombre, telefono, direccion, correo, usuario }) => (
                 <TableRow
-                hover
-                id={idColaborador}
-                key={idColaborador}
                 >
                   <NameCell
                   >{idColaborador}</NameCell>
