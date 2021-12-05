@@ -71,15 +71,16 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
     font-size: 1.1rem;
     height: 2.5rem;
     width: 7rem;
-    margin: 5rem 1rem;
+    margin: 0rem 1rem;
   `;
 
     const ButtonContainer = styled.div`
         display: flex;
-        margin-bottom: 1rem;
+        margin-top: 5rem;
     `;
 
     const OperationContainer = styled.div`
+        margin-top: 1rem;
         display: flex;
         align-items: center;
     `;
@@ -93,6 +94,9 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
         font-size: 2rem;
         cursor: pointer;
     `;
+    const Title = styled.h1`
+        margin: 0;
+    `;
 
   return (
     <>
@@ -102,8 +106,8 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
           <div className="popup-overlay" onClick={closePopup}></div>
           <ContentContainer>
 
-            <h1>Agregar carteras</h1>
-
+            <Title>Agregar carteras</Title>
+            <Title>a: {colaborador.nombre}</Title>
             <OperationContainer>
                 <MinusSign onClick={handleMinus}/>
                 <AddInput
