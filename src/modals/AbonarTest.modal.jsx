@@ -7,7 +7,7 @@ import {FaPlus, FaMinus} from "react-icons/fa"
 import { abonoCartera } from "../Data/Colaboradores.Data";
 
 
-const Abonar = ({ modal, buttonClicked, colaborador }) => {
+const AbonarTest = ({  }) => {
 
   
   //console.log(colaborador.Nombre);
@@ -117,51 +117,48 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
 
   return (
     <>
+      <Container className="modal" >
+        <ContentContainer>
 
-      {modal && (
-        <Container className="modal" >
-          <div className="popup-overlay"></div>
-          <ContentContainer>
+          <Title>Abonar</Title>
+          <Title>a: {}</Title>
+          <div style={{display: "flex"}}>
+            <Title>ID Cartera: {}</Title>
+            <Title>Adeudo: ${} MXN</Title>
+          </div>
+          <OperationContainer>
+              <Symbol>$</Symbol>
+                <AddInput
+                type="number"
+                value={abono}
+                onChange={(event) => {
+                  setAbono(event.target.value)
+                }}
+                type="number"
+                min="0"
+                />
+          </OperationContainer>
 
-            <Title>Abonar</Title>
-            <Title>a: {colaborador.nombreColaborador}</Title>
-            <div style={{display: "flex"}}>
-              <Title>ID Cartera: {colaborador.idCartera}</Title>
-              <Title>Adeudo: ${colaborador.adeudo} MXN</Title>
-            </div>
-            <OperationContainer>
-                <Symbol>$</Symbol>
-                  <AddInput
-                  type="number"
-                  value={abono}
-                  onChange={(event) => {
-                    setAbono(event.target.value)
-                  }}
-                  type="number"
-                  min="0"
-                  />
-            </OperationContainer>
+          <ButtonContainer>
+              <Button>
+                  Cancelar
+              </Button>
+              <Button
+              onClick={()=>{
+                console.log(abono);
+                if(handleContinuar()){
+                  //sendAbono(colaborador.idCartera, colaborador.idColaborador, )
+                }
+                }}>
+                  Continuar
+              </Button>
+          </ButtonContainer>
 
-            <ButtonContainer>
-                <Button onClick={buttonClicked}>
-                    Cancelar
-                </Button>
-                <Button
-                onClick={()=>{
-                  console.log(abono);
-                  if(handleContinuar(colaborador.adeudo)){
-                    //sendAbono(colaborador.idCartera, colaborador.idColaborador, )
-                  }
-                  }}>
-                    Continuar
-                </Button>
-            </ButtonContainer>
-
-          </ContentContainer>
-        </Container>
-      )}
+        </ContentContainer>
+      </Container>
+      
       
     </>
   );
 }
-export default Abonar;
+export default AbonarTest;
