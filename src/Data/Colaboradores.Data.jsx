@@ -47,3 +47,45 @@ export const allBoletosCartera = async (idCartera) => {
       console.log(e);
     }
   }
+
+  export const insertarCarteras = async (numColaborador, numPromotor, numCarteras) => {
+    try {
+      const values = {
+        numColaborador: numColaborador,
+        numCarteras: numCarteras,
+        numPromotor: numPromotor
+      }
+  
+      const response = await fetch("http://localhost:4000/insertarCarteras", {
+          method: "post",
+          headers: headers,
+          body: JSON.stringify(values)
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  export const abonoCartera = async (numCartera, numColaborador, cantidadAbono) => {
+    try {
+      const values = {
+        numCartera: numCartera,
+        numColaborador: numColaborador,
+        cantidadAbono: cantidadAbono
+      }
+  
+      const response = await fetch("http://localhost:4000/abonoCartera", {
+          method: "post",
+          headers: headers,
+          body: JSON.stringify(values)
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  }

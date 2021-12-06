@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components"
 
 const Container = styled.div`
-    background-color: #f2bf27;
+    background-color: #ffc826;
     height: 5rem;
     width: 90%;
     border-radius: 10px;
@@ -28,11 +28,9 @@ const Row = styled.div`
 `;
 
 const BoletosItem = ({numBoleto, precio, fechaVenta, idColaborador, idCartera, idComprador, vendido}) => {
-    const [fecha, setFecha] = useState("N/A")
-    if(fechaVenta != null){
-        const arr = fechaVenta.split("T")
-        setFecha(arr[0])
-    }
+
+    const fecha = fechaVenta ? fechaVenta.split("T") : ["N/A"];
+    
     return (
         <Container>
             <Block>
@@ -48,7 +46,7 @@ const BoletosItem = ({numBoleto, precio, fechaVenta, idColaborador, idCartera, i
             <Block>
                 <Row>
                     <Title>Fecha de venta:</Title>
-                    <Value>{fecha}</Value>
+                    <Value>{fecha[0]}</Value>
                 </Row>
                 <Row>
                     <Title>ID Colaborador:</Title>

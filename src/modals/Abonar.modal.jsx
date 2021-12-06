@@ -4,10 +4,12 @@ import "./Popup.css"
 import styled from "styled-components";
 import CarteraItem from "../components/CarteraItem";
 import {FaPlus, FaMinus} from "react-icons/fa"
+import { abonoCartera } from "../Data/Colaboradores.Data";
 
 
 const Abonar = ({ modal, buttonClicked, colaborador }) => {
 
+  
   //console.log(colaborador.Nombre);
   const Container = styled.div`
     margin-left: 5rem;
@@ -46,6 +48,7 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
     outline: none;
     max-width: 10rem;
     margin-top: 1rem;
+    
   `;
 
   const Button = styled.button`
@@ -95,6 +98,23 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
         padding: 0 10px;
     `;
 
+    const [abono, setAbono] = useState("")
+
+    const handleContinuar = (val) => {
+      
+      const cantidad = parseInt(abono);
+      const adeudo = parseInt(val);
+
+      return (cantidad <= adeudo) ? true : false;
+    }
+
+    const sendAbono = async (numCartera, numColaborador, cantidadAbono) => {
+      await abonoCartera(numCartera, numColaborador, cantidadAbono);
+    }
+    function getAbono(e){
+      setAbono(e.target.addinput.value)
+    }
+
   return (
     <>
 
@@ -111,14 +131,29 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
             </div>
             <OperationContainer>
                 <Symbol>$</Symbol>
-                <AddInput/>
+                  <AddInput
+                  type="number"
+                  value={abono}
+                  onChange={(event) => {
+                    setAbono(event.target.value)
+                  
+                  }}
+                  type="number"
+                  min="0"
+                  />
             </OperationContainer>
 
             <ButtonContainer>
                 <Button onClick={buttonClicked}>
                     Cancelar
                 </Button>
-                <Button onClick={buttonClicked}>
+                <Button
+                onClick={()=>{
+                  console.log(abono);
+                  if(handleContinuar(colaborador.adeudo)){
+                    //sendAbono(colaborador.idCartera, colaborador.idColaborador, )
+                  }
+                  }}>
                     Continuar
                 </Button>
             </ButtonContainer>

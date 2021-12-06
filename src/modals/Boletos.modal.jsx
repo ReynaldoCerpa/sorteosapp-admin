@@ -163,7 +163,8 @@ const Boletos = ({ modal, closePopup, boletos }) => {
                                 precio={precio} 
                                 fechaVenta={fechaVenta}
                                 idColaborador={idColaborador}
-                                idCartera={idCartera} />
+                                idCartera={idCartera} 
+                                idComprador={idComprador}/>
                             )))
                         }
                     </BoletosList>

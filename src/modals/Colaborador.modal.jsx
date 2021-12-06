@@ -103,7 +103,8 @@ const TableButton = styled.button`
             <Boletos modal={boletos} closePopup={toggleBoletos} boletos={boletosCartera}/>
             <div style={{display: "flex", justifyContent: "space-between", alignItems:"top" }}>
             <h1>Carteras</h1>
-            <Button onClick={buttonClicked}>
+            <Button 
+            onClick={buttonClicked}>
                 Cerrar
             </Button>
             </div>
@@ -114,7 +115,7 @@ const TableButton = styled.button`
                 Asignar carteras
               </CarterasButton>
             </div>
-            <TableContainer style={{maxHeight: "80%"}}>
+            <TableContainer style={{maxHeight: "75%"}}>
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
@@ -131,6 +132,7 @@ const TableButton = styled.button`
                       <TableRow
                       hover
                       >
+                        {console.log(colaborador.carteras)}
                         <TableCell>{idCartera}</TableCell>
                         <TableCell>{numBoletos}</TableCell>
                         <TableCell>{fechaEntregada}</TableCell>

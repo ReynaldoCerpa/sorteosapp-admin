@@ -4,6 +4,7 @@ import "./Popup.css"
 import styled from "styled-components";
 import CarteraItem from "../components/CarteraItem";
 import {FaPlus, FaMinus} from "react-icons/fa"
+import { insertarCarteras } from "../Data/Colaboradores.Data";
 
 
 const AddCarteras = ({ modal, closePopup, colaborador }) => {
@@ -20,6 +21,10 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
     if((numCarteras - 1) >= 1){
         setNumCarteras(numCarteras-1)
     }
+  }
+
+  const addCarteras = async (numColaborador, numPromotor, numCarteras) => {
+    await insertarCarteras(numColaborador, numPromotor, numCarteras);
   }
   //console.log(colaborador.Nombre);
   const Container = styled.div`
@@ -123,7 +128,10 @@ const AddCarteras = ({ modal, closePopup, colaborador }) => {
                 <Button onClick={closePopup}>
                     Cancelar
                 </Button>
-                <Button onClick={closePopup}>
+                <Button onClick={()=>{
+                  addCarteras(colaborador.idColaborador, 1,numCarteras)
+                  window.location.reload()
+                  }}>
                     Continuar
                 </Button>
             </ButtonContainer>
