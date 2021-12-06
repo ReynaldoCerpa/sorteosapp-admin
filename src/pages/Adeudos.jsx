@@ -169,8 +169,8 @@ const Adeudos = () => {
   const handleAbonar = (id,value) => {
     console.log("Selectedcolab: ",selectedColaborador.adeudo);
     console.log("IDD: ",id);
-    console.log("Valuee: ",value);
-    if(id != null && value != "" && value <= selectedColaborador.adeudo){
+    console.log("Valuee: ",value <= parseInt(selectedColaborador.adeudo));
+    if(id != null && value != "" && value <= parseInt(selectedColaborador.adeudo)){
       console.log("pasó");
       setModal(true)
     }
