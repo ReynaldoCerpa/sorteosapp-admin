@@ -14,21 +14,6 @@ import Paper from "@material-ui/core/Paper";
 import Boletos from "./Boletos.modal";
 import { allBoletosCartera } from "../Data/Colaboradores.Data";
 
-
-const ColaboradorModal = ({modal, buttonClicked, colaborador }) => {
-
-  const [popup, setModal] = useState(false);
-  const [boletos, setBoletos] = useState(false);
-  const [boletosCartera, setBoletosCartera] = useState(false);
-
-  const toggleModal = () => {
-    setModal(!popup)
-  }
-
-  const toggleBoletos = () => {
-    setBoletos(!boletos)
-  }
-
 const Container = styled.div`
   margin-left: 5rem;
   margin-top: 8rem;
@@ -90,7 +75,24 @@ const TableButton = styled.button`
     height: 3rem;
 
     margin: auto 3rem;
-  `;
+  `; 
+  
+const ColaboradorModal = ({modal, buttonClicked, colaborador }) => {
+
+  const [popup, setModal] = useState(false);
+  const [boletos, setBoletos] = useState(false);
+  const [boletosCartera, setBoletosCartera] = useState(false);
+  const [devuelta, setDevuelta] = useState("0")
+
+  const toggleModal = () => {
+    setModal(!popup)
+  }
+
+  const toggleBoletos = () => {
+    setBoletos(!boletos)
+  }
+
+
 
   return (
     <>
@@ -100,7 +102,7 @@ const TableButton = styled.button`
           <div className="overlay"></div>
           <ContentContainer >
             <AddCarteras modal={popup} closePopup={toggleModal} colaborador={colaborador}/>
-            <Boletos modal={boletos} closePopup={toggleBoletos} boletos={boletosCartera}/>
+            <Boletos modal={boletos} closePopup={toggleBoletos} boletos={boletosCartera} devuelta={devuelta} />
             <div style={{display: "flex", justifyContent: "space-between", alignItems:"top" }}>
             <h1>Carteras</h1>
             <Button 
@@ -123,12 +125,13 @@ const TableButton = styled.button`
                   <TableCell>Boletos</TableCell>
                   <TableCell>Fecha de entrega</TableCell>
                   <TableCell>Entregada</TableCell>
+                  <TableCell>Devuelta</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
               {colaborador.carteras.length ?
-                    (colaborador.carteras.map(({ idCartera, numBoletos, fechaEntregada, entregada }) => (
+                    (colaborador.carteras.map(({ idCartera, numBoletos, fechaEntregada, entregada, devuelta }) => (
                       <TableRow
                       hover
                       >
@@ -137,12 +140,14 @@ const TableButton = styled.button`
                         <TableCell>{numBoletos}</TableCell>
                         <TableCell>{fechaEntregada}</TableCell>
                         <TableCell>{entregada == 0 ? "Pendiente" : "Entregada"}</TableCell>
+                        <TableCell>{devuelta == 1 ? "Devuelta" : "Pendiente"}</TableCell>
                         <TableCell>
                           <TableButton id={idCartera} onClick={async (e)=>{
                             const boletos = await allBoletosCartera(idCartera);
+                            setDevuelta(devuelta)
                             setBoletosCartera(boletos[0]);
                             toggleBoletos()
-                          }}>Ver Boletos
+                          }}>Ver Cartera
                           </TableButton>
                         </TableCell>
                       </TableRow>

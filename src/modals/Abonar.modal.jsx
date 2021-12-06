@@ -7,7 +7,7 @@ import {FaPlus, FaMinus} from "react-icons/fa"
 import { abonoCartera } from "../Data/Colaboradores.Data";
 
 
-const Abonar = ({ modal, buttonClicked, colaborador }) => {
+const Abonar = ({ modal, buttonClicked, colaborador, abono }) => {
 
   
   //console.log(colaborador.Nombre);
@@ -27,7 +27,7 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
     max-width: 30rem;
     min-width: 10rem;
     width: 100%;
-    height: 25rem;
+    height: 20rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -62,7 +62,7 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
     font-size: 1.1rem;
     height: 2.5rem;
     width: 7rem;
-    margin: 3.5rem 1rem;
+    margin: 1.5rem 1rem;
   `;
 
     const ButtonContainer = styled.div`
@@ -98,21 +98,10 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
         padding: 0 10px;
     `;
 
-    const [abono, setAbono] = useState("")
 
-    const handleContinuar = (val) => {
-      
-      const cantidad = parseInt(abono);
-      const adeudo = parseInt(val);
-
-      return (cantidad <= adeudo) ? true : false;
-    }
 
     const sendAbono = async (numCartera, numColaborador, cantidadAbono) => {
       await abonoCartera(numCartera, numColaborador, cantidadAbono);
-    }
-    function getAbono(e){
-      setAbono(e.target.addinput.value)
     }
 
   return (
@@ -123,35 +112,19 @@ const Abonar = ({ modal, buttonClicked, colaborador }) => {
           <div className="popup-overlay"></div>
           <ContentContainer>
 
-            <Title>Abonar</Title>
+            <Title>Abonar: ${abono} MXN</Title>
             <Title>a: {colaborador.nombreColaborador}</Title>
-            <div style={{display: "flex"}}>
               <Title>ID Cartera: {colaborador.idCartera}</Title>
               <Title>Adeudo: ${colaborador.adeudo} MXN</Title>
-            </div>
-            <OperationContainer>
-                <Symbol>$</Symbol>
-                  <AddInput
-                  type="number"
-                  value={abono}
-                  onChange={(event) => {
-                    setAbono(event.target.value)
-                  }}
-                  type="number"
-                  min="0"
-                  />
-            </OperationContainer>
-
+            
             <ButtonContainer>
                 <Button onClick={buttonClicked}>
                     Cancelar
                 </Button>
                 <Button
                 onClick={()=>{
-                  console.log(abono);
-                  if(handleContinuar(colaborador.adeudo)){
-                    //sendAbono(colaborador.idCartera, colaborador.idColaborador, )
-                  }
+                  sendAbono(colaborador.idCartera, colaborador.idColaborador, abono)
+                  window.location.reload()
                   }}>
                     Continuar
                 </Button>

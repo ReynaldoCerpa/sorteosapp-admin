@@ -1,5 +1,5 @@
 
-import { FaCog, FaSignOutAlt } from "react-icons/fa"
+import { FaBars, FaSignOutAlt } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom'
 import { useState } from "react";
 import styled from "styled-components";
@@ -29,7 +29,7 @@ const NavBar = () => {
                     <Toolbar style={{ backgroundColor: "#FFBF00" }}>
                         <AppBarContainer>
                             <Img />
-                            <FaCog size="20" onClick={handleClick} style={{ cursor: "pointer", color: "white" }} />
+                            <FaBars size="20" onClick={handleClick} style={{ cursor: "pointer", color: "white" }} />
                             <Menu
                                 anchorEl={anchorEl}
                                 open={open}

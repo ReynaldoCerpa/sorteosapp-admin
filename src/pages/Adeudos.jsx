@@ -12,7 +12,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { headers } from "../config/headers";
 import { FaSearch } from "react-icons/fa";
 import { adeudosCarteras } from "../Data/Colaboradores.Data";
-import AbonarTest from "../modals/AbonarTest.modal";
+import Abonar from "../modals/Abonar.modal";
 
 const Papr = styled(Paper)`
   overflow-x: auto;
@@ -116,6 +116,7 @@ margin: 0.3rem 0;
 
 const Alert = styled.h3`
   color: red;
+  margin: 0;
 `
 
 
@@ -132,6 +133,9 @@ const Adeudos = () => {
 
   const toggleAlert = () => {
     setAlert(!alert)
+  }
+  const toggleModal = () => {
+    setModal(!modal)
   }
 
   useEffect(() => {
@@ -163,16 +167,33 @@ const Adeudos = () => {
   }
 
   const handleAbonar = (id,value) => {
-    if(id != "" && value != ""){
+    console.log("Selectedcolab: ",selectedColaborador.adeudo);
+    console.log("IDD: ",id);
+    console.log("Valuee: ",value);
+    if(id != null && value != "" && value <= selectedColaborador.adeudo){
       console.log("pasó");
-    }else {
+      setModal(true)
+    }
+    else {
       setAlert(true)
     }
   }
   const reg = /^-?\d*\.?\d*$/;
 
+  const findIdColaborador = (id) => {
+    const datos = tableData(data);
+    let x;
+    for(x in datos){
+      if(tableData(data)[x]["idCartera"] == id){
+        setColaborador(datos[x])
+        console.log(datos[x]);
+      }
+    }
+  }
+
   return (
     <Container>
+      <Abonar modal={modal} colaborador={selectedColaborador} abono={abono} buttonClicked={toggleModal}/>
       <Papr>
         <div style={{ display: "flex" }}>
           <div style={{ display: "flex", alignItems: "flex-end", margin: "0rem" }}>
@@ -185,7 +206,7 @@ const Adeudos = () => {
           </div>
           <AbonarBakcground>
             <AbonarContainer>
-              <Title>Abonar</Title>
+              <Title>Monto de abono</Title>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Symbol>$</Symbol>
                 <AbonarInput 
@@ -205,15 +226,20 @@ const Adeudos = () => {
               <AbonarButton
                 onClick={
                   () => {
-                    handleAbonar(selectedCartera, abono)
+                    handleAbonar(selectedColaborador ? selectedColaborador.idCartera : null, abono)
                   }
                 }
               >Abonar</AbonarButton>
             </AbonarContainer>
             <AbonarContainer>
               <Title>ID Cartera seleccionada: </Title>
-              <h2>{selectedCartera != null ? selectedCartera : "Seleccione cartera"}</h2>
-              {alert ? <Alert>CANTIDAD INVALIDA</Alert> : ""}
+              <h2>{selectedColaborador != null ? selectedColaborador.idCartera : "Seleccione cartera para abonar"}</h2>
+              {alert ?
+              <div>
+                <Alert>ABONO INVALIDO</Alert>
+                <Alert>Debe ser numérico y menor al adeudo</Alert>
+              </div>
+              : ""}
             </AbonarContainer>
           </AbonarBakcground>
         </div>
@@ -225,7 +251,6 @@ const Adeudos = () => {
               <TableCell>Nombre</TableCell>
               <TableCell>Fecha entregada</TableCell>
               <TableCell>Adeudo</TableCell>
-              <TableCell>Devuelta</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -249,11 +274,10 @@ const Adeudos = () => {
                 <TableCell>{nombreColaborador}</TableCell>
                 <TableCell>{fechaEntregada}</TableCell>
                 <TableCell>${adeudo} MXN</TableCell>
-                <TableCell>{devuelta == 0 ? "Pendiente" : "Devuelta"}</TableCell>
                 <TableCell>
                   <TableButton id={idCartera} onClick={(e) => {
                     console.log(e.target.id);
-                    setCartera(e.target.id)
+                    findIdColaborador(e.target.id)
                   }}>Seleccionar</TableButton>
                 </TableCell>
               </TableRow>

@@ -89,3 +89,22 @@ export const allBoletosCartera = async (idCartera) => {
       console.log(e);
     }
   }
+
+  export const devolverCartera = async (numCartera) => {
+    try {
+      const values = {
+        numCartera: numCartera
+      }
+  
+      const response = await fetch("http://localhost:4000/devolverCartera", {
+          method: "post",
+          headers: headers,
+          body: JSON.stringify(values)
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  }

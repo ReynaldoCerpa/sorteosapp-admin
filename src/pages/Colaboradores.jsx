@@ -94,6 +94,7 @@ useEffect(() => {
 }, [])
 
 const getCartera = (cartera, id) =>{
+  console.log(cartera);
   let carterasArray = []
   let x;
   for(x in cartera){
@@ -107,6 +108,7 @@ const getCartera = (cartera, id) =>{
           idColaborador: cartera[x]["idColaborador"],
           idPromotor: cartera[x]["idPromotor"],
           numBoletos: cartera[x]["numBoletos"],
+          devuelta: cartera[x]["devuelta"],
         }
       )
     }
@@ -131,6 +133,17 @@ const tableData = (value) => {
     )
   }
   return colaboradores;
+}
+
+const findColaborador = (id) => {
+  const datos = tableData(data);
+  let x;
+  for(x in datos){
+    if(tableData(data)[x]["idColaborador"] == id){
+      setColaborador(datos[x])
+      console.log(datos[x]);
+    }
+  }
 }
 
 
@@ -184,7 +197,7 @@ const tableData = (value) => {
                   <TableCell>{usuario}</TableCell>
                   <TableCell>
                     <TableButton id={idColaborador} onClick={(e)=>{
-                      setColaborador(tableData(data)[e.target.id-1])
+                      findColaborador(e.target.id)
                       toggleModal()
                     }}>Carteras</TableButton>
                   </TableCell>

@@ -5,9 +5,9 @@ import styled from "styled-components";
 import CarteraItem from "../components/CarteraItem";
 import {FaPlus, FaMinus} from "react-icons/fa"
 import BoletoItem from "../components/BoletoItem";
+import { devolverCartera } from '../Data/Colaboradores.Data';
 
-
-const Boletos = ({ modal, closePopup, boletos }) => {
+const Boletos = ({ modal, closePopup, boletos, devuelta }) => {
 
   //console.log(colaborador.Nombre);
   const Container = styled.div`
@@ -52,7 +52,7 @@ const Boletos = ({ modal, closePopup, boletos }) => {
     max-width: 10rem;
     margin-top: 1rem;
   `;
-
+  
   const Button = styled.button`
     border: none;
     padding: 8.5px;
@@ -66,6 +66,20 @@ const Boletos = ({ modal, closePopup, boletos }) => {
     width: 4rem;
     position: fixed;
     right: 1rem;
+  `;
+
+  const ButtonDevolver = styled.button`
+    border: none;
+    padding: 8.5px;
+    text-align: center;
+    border-radius: 7px;
+    cursor: pointer;
+    background-color: #FFBF00;
+    font-weight: 700;
+    font-size: 1rem;
+    height: 3.3rem;
+    width: 7rem;
+    margin-left: 1rem;
   `;
 
     const ButtonContainer = styled.div`
@@ -118,18 +132,31 @@ const Boletos = ({ modal, closePopup, boletos }) => {
         <Container className="popup-container" >
           <div className="popup-overlay"></div>
           <ContentContainer>
-            <Title>Boletos</Title>
+            <div style={{display: "flex", alignItems: "center"}} >
+              <Title>Cartera</Title>
+              {
+              devuelta == "0" ?  
+                <ButtonDevolver
+                onClick={async ()=>{
+                  devolverCartera(boletos[0]["idCartera"])
+                  
+                  window.location.reload();
+                }}
+                >Devolver cartera</ButtonDevolver>
+                :
+                ""
+              }
+            </div>
             <Button onClick={closePopup}>
                 Cerrar
             </Button>
             <BoletosContainer>
                 <NoVendidos>
-                    <h3>No Vendidos</h3>
+                    <h3>Boletos NO vendidos</h3>
                     <BoletosListContainer>
                     <BoletosList>    
                         {
                             (boletos.filter((val)=>{
-                                console.log(val);
                                     if(val.vendido == "0"){
                                         return val;
                                     }
@@ -147,26 +174,26 @@ const Boletos = ({ modal, closePopup, boletos }) => {
                     </BoletosListContainer>
                 </NoVendidos>
                 <Vendidos>
-                    <h3>Vendidos</h3>
+                    <h3>Boletos Vendidos</h3>
                     <BoletosListContainer>
                     <BoletosList>
-                    {
-                            (boletos.filter((val)=>{
-                                console.log(val);
-                                    if(val.vendido == "1"){
-                                        return val;
-                                    }
-                            }).map(({ numBoleto, precio, fechaVenta, idColaborador, idCartera, idComprador, vendido }) => (
-                                //console.log(boletos),
-                                <BoletoItem 
-                                numBoleto={numBoleto} 
-                                precio={precio} 
-                                fechaVenta={fechaVenta}
-                                idColaborador={idColaborador}
-                                idCartera={idCartera} 
-                                idComprador={idComprador}/>
-                            )))
-                        }
+                      {
+                        (boletos.filter((val)=>{
+                            console.log(val);
+                                if(val.vendido == "1"){
+                                    return val;
+                                }
+                        }).map(({ numBoleto, precio, fechaVenta, idColaborador, idCartera, idComprador, vendido }) => (
+                            //console.log(boletos),
+                            <BoletoItem 
+                            numBoleto={numBoleto} 
+                            precio={precio} 
+                            fechaVenta={fechaVenta}
+                            idColaborador={idColaborador}
+                            idCartera={idCartera} 
+                            idComprador={idComprador}/>
+                        )))
+                      }
                     </BoletosList>
                     </BoletosListContainer>
                 </Vendidos>
